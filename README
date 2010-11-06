@@ -1,0 +1,50 @@
+geoipmq
+---
+
+This is a simple service for resolving an ip address to its geographic location. It's basically just a ZeroMQ front end for the MaxMind GeoIP library.  
+
+It supports a single command over a ZeroMQ request/response socket:
+
+geoip ip_addr
+
+The response is tab delimited geo information, in the following order:
+
+Country
+Region (aka State)
+City
+Postal Code
+Latitude
+Longitude
+Metro Code
+Area Code
+
+An exmaple response:
+US  TX	    Longview	 75605	 32.583199	 -94.714798	 709	 903
+
+Note that any field may be returned as (null).
+
+
+Installation
+---
+
+1. Install ZeroMQ per http://www.zeromq.org/intro:get-the-software
+2. Install MaxMind's GeoIP C libraries per: http://www.maxmind.com/app/c
+3. Build geoipmq: 
+   gcc main.c -lzmq -lGeoIP -o geoipmq
+
+Running
+--
+To use geoipmq, you need to obtain a copy of MaxMind's free GeoLite city database.  This is available here:
+
+http://www.maxmind.com/app/geolitecity
+
+Currently MaxMind claims a 79% accuracy at the city level for the free database. For better accuracy you can upgrade to the paid version -- it should be a drop in replacement.
+
+Once you have a city database, start up as:
+
+geoipmq geoipdb port
+
+And you're ready to go.
+
+
+ 
